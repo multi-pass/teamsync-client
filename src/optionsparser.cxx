@@ -1,6 +1,5 @@
 #include "optionsparser.hxx"
 #include <stdio.h>
-
 OptionsParser::OptionsParser(unsigned int _argc, char **_argv)
 	: argc(_argc), argv(_argv), longmap() {
 	this->longmap.insert(this->longmap.end(), option());
@@ -55,9 +54,6 @@ OptionsResult OptionsParser::parse() {
 	while (-1 != (c = getopt_long(this->argc, this->argv, this->optstring,
 							longopts, &longindex))) {
 		bool valid_opt = (c != '?' && c != ':' && std::strchr(optstring, optopt));
-		fprintf(stderr, "c = %c\n", c);
-		fprintf(stderr, "optopt = %c\n", optopt);
-		fprintf(stderr, "valid_opt = %s\n", (valid_opt?"true":"false"));
 		if (!valid_opt || c == '?' || c == ':') {
 			if (c == ':') {
 				missing_arguments->insert(missing_arguments->end(), optopt);
