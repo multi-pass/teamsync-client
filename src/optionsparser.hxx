@@ -1,3 +1,6 @@
+#ifndef OPTIONSPARSER_H
+#define OPTIONSPARSER_H
+
 #include <cstring>
 #include <string>
 #include <list>
@@ -42,3 +45,5 @@ class OptionsParser {
 	const char *optstring;
 	std::vector<struct option> longmap;
 };
+
+#endif
