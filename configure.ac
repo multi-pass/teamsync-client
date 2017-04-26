@@ -1,6 +1,6 @@
 AC_INIT([teamsync-client],[0.0.1])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 
 dnl Switch to a C++ compiler, and check if it works.
 AC_LANG(C++)
