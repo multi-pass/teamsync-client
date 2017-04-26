@@ -1,3 +1,8 @@
+.deps/
+.dirstamp
+Makefile
+config.cache
+/src/ts
 
 # Created by https://www.gitignore.io/api/osx,vim,git,gpg,c++,joe,linux,emacs,windows,qtcreator,autotools
 
