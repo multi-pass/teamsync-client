@@ -6,7 +6,6 @@ ts_SOURCES = main.cxx \
 			 clicontroller.cxx \
 			 filehelper.cxx \
 			 optionsparser.cxx \
-			 pgphelper.cxx \
 			 servercommunicator.cxx
 
 ts_SOURCES += commands/addsecret.cxx \
