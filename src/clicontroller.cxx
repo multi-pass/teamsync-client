@@ -65,7 +65,16 @@ int CLIController::dispatch(int argc, char *argv[]) {
 	}
 
 	std::string op = *(args.non_option_arguments->begin());
-	printf("operation is %s\n", op.c_str());
 
-	return 0;
+	Command *cmd = NULL;
+	CommandFactory::create(op, &cmd);
+
+	if (cmd) {
+		cmd->run();
+
+		int res = cmd->getResult();
+		delete cmd;
+		return res;
+	}
+	return 1;
 }

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#include "commandfactory.hxx"
 #include "optionsparser.hxx"
 
 class CLIController {
