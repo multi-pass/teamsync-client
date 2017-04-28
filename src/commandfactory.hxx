@@ -5,7 +5,9 @@
 #include <string>
 
 #include <stdio.h>
+#include <unistd.h>
 
+#include "filehelper.hxx"
 #include "command.hxx"
 
 #include "commands/addsecret.hxx"

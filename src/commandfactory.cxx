@@ -32,6 +32,13 @@ void CommandFactory::create(const std::string command_string, Command **command)
 		}
 	}
 
+	// Check if the current working directory is a repo
+	if (!FileHelper::isValidRepoPath()) {
+		fprintf(stderr, "Not a ts repo.\n");
+		*command = NULL;
+		return;
+	}
+
 	// Create command instance
 	switch (type) {
 	case ADD_SECRET_COMMAND:
