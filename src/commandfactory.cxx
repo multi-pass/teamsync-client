@@ -24,7 +24,12 @@ std::map<std::string, CommandType> aliases = define_aliases();
 
 
 void CommandFactory::create(const std::string command_string, Command **command) {
-	// Resolve alias
+	// Set command to NULL as a fallback, in case there is a left-over object
+	// or the variable has not been initialized yet.
+	*command = NULL;
+
+
+	// Resolve aliases
 	CommandType type = INVALID_COMMAND;
 	{
 		std::map<std::string, CommandType>::iterator type_it =
@@ -35,30 +40,50 @@ void CommandFactory::create(const std::string command_string, Command **command)
 	}
 
 	// Check if the current working directory is a repo
-	if (!FileHelper::isValidRepoPath()) {
-		fprintf(stderr, "Not a ts repo.\n");
-		*command = NULL;
-		return;
-	}
+	bool is_repo = FileHelper::isValidRepoPath();
+
 
 	// Create command instance
-	switch (type) {
-	case ADD_SECRET_COMMAND:
-		*command = new AddSecretCommand();
-		break;
-	case REMOVE_SECRET_COMMAND:
-		*command = new RemoveSecretCommand();
-		break;
-	case SERVER_FETCH_COMMAND:
-		*command = new ServerFetchCommand();
-		break;
-	case SERVER_PUSH_COMMAND:
-		*command = new ServerPushCommand();
-		break;
 
-	case INVALID_COMMAND:
-	default:
-		fprintf(stderr, "You specified an invalid command\n");
-		*command = NULL;
+	if (INVALID_COMMAND == type) {
+		// user specified an invalid command
+		fprintf(stderr, "`'%s' is not a valid command\n"
+				"Use `--help' to get a list of valid commands.\n",
+				command_string.c_str());
+		goto postprocessing;
 	}
+
+	// Commands that require a repo to be present
+	if (is_repo) {
+		switch (type) {
+		case ADD_SECRET_COMMAND:
+			*command = new AddSecretCommand();
+			goto postprocessing;
+		case REMOVE_SECRET_COMMAND:
+			*command = new RemoveSecretCommand();
+			goto postprocessing;
+		case SERVER_FETCH_COMMAND:
+			*command = new ServerFetchCommand();
+			goto postprocessing;
+		case SERVER_PUSH_COMMAND:
+			*command = new ServerPushCommand();
+			goto postprocessing;
+		}
+	}
+
+	// Commands that work without a repo
+	switch (type) {
+	case INIT_COMMAND:
+		*command = new InitRepoCommand();
+		goto postprocessing;
+	}
+
+	// No command match found and no repo probably means that the user provided
+	// a command that requires a repo to be present.
+	if (!is_repo) {
+		fprintf(stderr, "Not a ts repo.\n");
+	}
+
+	postprocessing:
+	return;
 }
