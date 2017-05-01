@@ -9,7 +9,8 @@ ts_SOURCES = main.cxx \
 			 optionsparser.cxx \
 			 servercommunicator.cxx
 
-ts_SOURCES += commands/addsecret.cxx \
+ts_SOURCES += commands/initrepo.cxx \
+			  commands/addsecret.cxx \
 			  commands/removesecret.cxx \
 			  commands/serverfetch.cxx \
 			  commands/serverpush.cxx

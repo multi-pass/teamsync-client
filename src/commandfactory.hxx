@@ -10,6 +10,7 @@
 #include "filehelper.hxx"
 #include "command.hxx"
 
+#include "commands/initrepo.hxx"
 #include "commands/addsecret.hxx"
 #include "commands/removesecret.hxx"
 #include "commands/serverfetch.hxx"

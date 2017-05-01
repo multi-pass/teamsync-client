@@ -2,7 +2,8 @@
 
 enum CommandType {
 	INVALID_COMMAND = 0,
-	ADD_SECRET_COMMAND = 1,
+	INIT_COMMAND = 1,
+	ADD_SECRET_COMMAND,
 	REMOVE_SECRET_COMMAND,
 	SERVER_FETCH_COMMAND,
 	SERVER_PUSH_COMMAND
@@ -10,6 +11,7 @@ enum CommandType {
 
 std::map<std::string, CommandType> define_aliases() {
 	std::map<std::string, CommandType> aliases;
+	aliases.insert(std::make_pair("init", INIT_COMMAND));
 	aliases.insert(std::make_pair("add", ADD_SECRET_COMMAND));
 	aliases.insert(std::make_pair("remove", REMOVE_SECRET_COMMAND));
 	aliases.insert(std::make_pair("stage", ADD_SECRET_COMMAND));
