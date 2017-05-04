@@ -1,6 +1,6 @@
 #include "serverpush.hxx"
 
-ServerPushCommand::ServerPushCommand() {
+ServerPushCommand::ServerPushCommand(const std::string& working_dir) {
 
 }
 

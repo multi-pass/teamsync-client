@@ -7,7 +7,7 @@
 
 class ServerPushCommand : public Command {
 	public:
-	ServerPushCommand();
+	ServerPushCommand(const std::string& working_dir);
 	void run();
 	int getResult();
 };

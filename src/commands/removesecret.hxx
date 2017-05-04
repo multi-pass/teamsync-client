@@ -7,7 +7,7 @@
 
 class RemoveSecretCommand : public Command {
 	public:
-	RemoveSecretCommand();
+	RemoveSecretCommand(const std::string& working_dir);
 	void run();
 	int getResult();
 };

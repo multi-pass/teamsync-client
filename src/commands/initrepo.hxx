@@ -10,7 +10,7 @@
 
 class InitRepoCommand : public Command {
 	public:
-	InitRepoCommand();
+	InitRepoCommand(const std::string& working_dir);
 	void run();
 	int getResult();
 

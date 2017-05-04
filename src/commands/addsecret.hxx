@@ -7,7 +7,7 @@
 
 class AddSecretCommand : public Command {
 	public:
-	AddSecretCommand();
+	AddSecretCommand(const std::string& working_dir);
 	void run();
 	int getResult();
 };

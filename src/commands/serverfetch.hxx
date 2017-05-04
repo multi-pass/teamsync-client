@@ -7,7 +7,7 @@
 
 class ServerFetchCommand : public Command {
 	public:
-	ServerFetchCommand();
+	ServerFetchCommand(const std::string& working_dir);
 	void run();
 	int getResult();
 };

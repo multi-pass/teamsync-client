@@ -1,6 +1,6 @@
 #include "removesecret.hxx"
 
-RemoveSecretCommand::RemoveSecretCommand() {
+RemoveSecretCommand::RemoveSecretCommand(const std::string& working_dir) {
 
 }
 

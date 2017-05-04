@@ -1,7 +1,7 @@
 #include "initrepo.hxx"
 
-InitRepoCommand::InitRepoCommand() {
-	this->cwd = FileHelper::getWorkingDir();
+InitRepoCommand::InitRepoCommand(const std::string& working_dir) {
+	this->cwd = working_dir;
 }
 
 void InitRepoCommand::run() {

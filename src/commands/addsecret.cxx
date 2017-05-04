@@ -1,6 +1,6 @@
 #include "addsecret.hxx"
 
-AddSecretCommand::AddSecretCommand() {
+AddSecretCommand::AddSecretCommand(const std::string& working_dir) {
 
 }
 

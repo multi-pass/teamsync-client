@@ -40,7 +40,8 @@ void CommandFactory::create(const std::string command_string, Command **command)
 	}
 
 	// Check if the current working directory is a repo
-	bool is_repo = FileHelper::isValidRepoPath();
+	const std::string cwd = FileHelper::getWorkingDir();
+	bool is_repo = FileHelper::isValidRepoPath(cwd);
 
 
 	// Create command instance
@@ -57,16 +58,16 @@ void CommandFactory::create(const std::string command_string, Command **command)
 	if (is_repo) {
 		switch (type) {
 		case ADD_SECRET_COMMAND:
-			*command = new AddSecretCommand();
+			*command = new AddSecretCommand(cwd);
 			goto postprocessing;
 		case REMOVE_SECRET_COMMAND:
-			*command = new RemoveSecretCommand();
+			*command = new RemoveSecretCommand(cwd);
 			goto postprocessing;
 		case SERVER_FETCH_COMMAND:
-			*command = new ServerFetchCommand();
+			*command = new ServerFetchCommand(cwd);
 			goto postprocessing;
 		case SERVER_PUSH_COMMAND:
-			*command = new ServerPushCommand();
+			*command = new ServerPushCommand(cwd);
 			goto postprocessing;
 		}
 	}
@@ -74,7 +75,7 @@ void CommandFactory::create(const std::string command_string, Command **command)
 	// Commands that work without a repo
 	switch (type) {
 	case INIT_COMMAND:
-		*command = new InitRepoCommand();
+		*command = new InitRepoCommand(cwd);
 		goto postprocessing;
 	}
 

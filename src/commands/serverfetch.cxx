@@ -1,6 +1,6 @@
 #include "serverfetch.hxx"
 
-ServerFetchCommand::ServerFetchCommand() {
+ServerFetchCommand::ServerFetchCommand(const std::string& working_dir) {
 
 }
 
