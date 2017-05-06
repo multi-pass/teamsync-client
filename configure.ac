@@ -18,8 +18,10 @@ AC_PROG_CXXCPP
 AC_SUBST([CC])
 
 
+### Libraries
 
-
+AX_LIB_CRYPTO([yes])
+AX_CHECK_CRYPTO_LIB([SHA256],[SHA256])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
