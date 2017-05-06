@@ -13,4 +13,5 @@ ts_SOURCES += commands/initrepo.cxx \
 			  commands/addsecret.cxx \
 			  commands/removesecret.cxx \
 			  commands/serverfetch.cxx \
-			  commands/serverpush.cxx
+			  commands/serverpush.cxx \
+			  commands/serversync.cxx

@@ -6,7 +6,8 @@ enum CommandType {
 	ADD_SECRET_COMMAND,
 	REMOVE_SECRET_COMMAND,
 	SERVER_FETCH_COMMAND,
-	SERVER_PUSH_COMMAND
+	SERVER_PUSH_COMMAND,
+	SERVER_SYNC_COMMAND
 };
 
 std::map<std::string, CommandType> define_aliases() {
@@ -18,6 +19,7 @@ std::map<std::string, CommandType> define_aliases() {
 	aliases.insert(std::make_pair("unstage", REMOVE_SECRET_COMMAND));
 	aliases.insert(std::make_pair("push", SERVER_PUSH_COMMAND));
 	aliases.insert(std::make_pair("fetch", SERVER_FETCH_COMMAND));
+	aliases.insert(std::make_pair("sync", SERVER_SYNC_COMMAND));
 	return aliases;
 }
 std::map<std::string, CommandType> aliases = define_aliases();
@@ -68,6 +70,9 @@ void CommandFactory::create(const std::string command_string, Command **command)
 			goto postprocessing;
 		case SERVER_PUSH_COMMAND:
 			*command = new ServerPushCommand(cwd);
+			goto postprocessing;
+		case SERVER_SYNC_COMMAND:
+			*command = new ServerSyncCommand(cwd);
 			goto postprocessing;
 		}
 	}

@@ -15,6 +15,7 @@
 #include "commands/removesecret.hxx"
 #include "commands/serverfetch.hxx"
 #include "commands/serverpush.hxx"
+#include "commands/serversync.hxx"
 
 class CommandFactory {
 	public:
