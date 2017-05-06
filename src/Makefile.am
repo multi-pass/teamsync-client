@@ -10,6 +10,7 @@ ts_SOURCES = main.cxx \
 			 servercommunicator.cxx
 
 ts_SOURCES += commands/initrepo.cxx \
+			  commands/status.cxx \
 			  commands/addsecret.cxx \
 			  commands/removesecret.cxx \
 			  commands/serverfetch.cxx \

@@ -11,6 +11,7 @@
 #include "command.hxx"
 
 #include "commands/initrepo.hxx"
+#include "commands/status.hxx"
 #include "commands/addsecret.hxx"
 #include "commands/removesecret.hxx"
 #include "commands/serverfetch.hxx"

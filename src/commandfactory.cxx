@@ -3,6 +3,7 @@
 enum CommandType {
 	INVALID_COMMAND = 0,
 	INIT_COMMAND = 1,
+	STATUS_COMMAND,
 	ADD_SECRET_COMMAND,
 	REMOVE_SECRET_COMMAND,
 	SERVER_FETCH_COMMAND,
@@ -13,6 +14,7 @@ enum CommandType {
 std::map<std::string, CommandType> define_aliases() {
 	std::map<std::string, CommandType> aliases;
 	aliases.insert(std::make_pair("init", INIT_COMMAND));
+	aliases.insert(std::make_pair("status", STATUS_COMMAND));
 	aliases.insert(std::make_pair("add", ADD_SECRET_COMMAND));
 	aliases.insert(std::make_pair("remove", REMOVE_SECRET_COMMAND));
 	aliases.insert(std::make_pair("stage", ADD_SECRET_COMMAND));
@@ -59,6 +61,9 @@ void CommandFactory::create(const std::string command_string, Command **command)
 	// Commands that require a repo to be present
 	if (is_repo) {
 		switch (type) {
+		case STATUS_COMMAND:
+			*command = new StatusCommand(cwd);
+			goto postprocessing;
 		case ADD_SECRET_COMMAND:
 			*command = new AddSecretCommand(cwd);
 			goto postprocessing;
