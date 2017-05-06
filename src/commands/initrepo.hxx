@@ -1,9 +1,11 @@
 #ifndef INITREPOCOMMAND_H
 #define INITREPOCOMMAND_H
 
+#include <fcntl.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include "../command.hxx"
 #include "../filehelper.hxx"
