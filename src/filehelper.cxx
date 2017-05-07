@@ -43,16 +43,16 @@ std::string FileHelper::hash_file(const std::string& filepath) {
 #if HAVE_CRYPTO
 	// Use OpenSSL's libcrypto to calculate file hashes
 #if CRYPTO_WITH_SHA256
-	const std::string dgst_algo = "sha256";
+	const std::string dgst_algo("sha256");
 #elif CRYPTO_WITH_RIPEMD
-	const std::string dgst_algo = "ripemd160";
+	const std::string dgst_algo("ripemd160");
 #elif CRYPTO_WITH_SHA
-	const std::string dgst_algo = "sha1";
+	const std::string dgst_algo("sha1");
 #else
 #error libcrypto supports none of the supported algorithms
 #endif
 
-	std::string hash_str = FileHelper::libcrypto_hash_file(dgst_algo, filepath);
+	std::string hash_str(FileHelper::libcrypto_hash_file(dgst_algo, filepath));
 
 	return (!hash_str.empty()
 			? (dgst_algo + ":" + hash_str)
@@ -71,8 +71,22 @@ std::string FileHelper::hash_file(const std::string& filepath) {
 #if HAVE_CRYPTO
 std::string FileHelper::libcrypto_hash_file(const std::string& digest_name,
 											const std::string& filepath) {
+	static bool dgst_loaded = false;
+	if (!dgst_loaded) {
+#if CRYPTO_WITH_SHA256
+		EVP_add_digest(EVP_sha256());
+#endif
+#if CRYPTO_WITH_RIPEMD
+		EVP_add_digest(EVP_ripemd160());
+#endif
+#if CRYPTO_WITH_SHA
+		EVP_add_digest(EVP_sha1());
+#endif
+		dgst_loaded = true;
+	}
+
 	const EVP_MD *dgst_type = EVP_get_digestbyname(digest_name.c_str());
-	if (EVP_add_digest(dgst_type)) {
+	if (!dgst_type) {
 		return "";
 	}
 
