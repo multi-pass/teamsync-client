@@ -37,16 +37,28 @@ bool FileHelper::isValidRepoPath(const std::string& path) {
 
 std::string FileHelper::hash_file(const std::string& filepath) {
 #if HAVE_CRYPTO
+	// Use OpenSSL's libcrypto to calculate file hashes
 #if CRYPTO_WITH_SHA256
-	return ("sha256:" + FileHelper::libcrypto_hash_file("sha256", filepath));
+	const std::string dgst_algo = "sha256";
 #elif CRYPTO_WITH_RIPEMD
-	return ("rmd160:" + FileHelper::libcrypto_hash_file("ripemd160", filepath));
+	const std::string dgst_algo = "ripemd160";
 #elif CRYPTO_WITH_SHA
-	return ("sha1:" + FileHelper::libcrypto_hash_file("sha1", filepath));
+	const std::string dgst_algo = "sha1";
 #else
 #error libcrypto supports none of the supported algorithms
 #endif
+
+	std::string hash_str = FileHelper::libcrypto_hash_file(dgst_algo, filepath);
+
+	return (!hash_str.empty()
+			? (dgst_algo + ":" + hash_str)
+			: "");
 #else
+/** Note:
+ * At the moment only OpenSSL's libcrypto is supported for calculating file
+ * hashes.
+ * Feel free to submit a pull request that adds more libraries.
+ */
 #error no library for hashing found
 #endif
 }
@@ -55,8 +67,10 @@ std::string FileHelper::hash_file(const std::string& filepath) {
 #if HAVE_CRYPTO
 std::string FileHelper::libcrypto_hash_file(const std::string& digest_name,
 											const std::string& filepath) {
-	OpenSSL_add_all_digests();
 	const EVP_MD *dgst_type = EVP_get_digestbyname(digest_name.c_str());
+	if (EVP_add_digest(dgst_type)) {
+		return "";
+	}
 
 	unsigned char hash_str[EVP_MAX_MD_SIZE];
 	unsigned int hash_len = 0;
