@@ -9,6 +9,7 @@ static const char *repo_folders[] = {
 
 static const char *repo_files[] = {
 	"config",
+	"repo.state",
 	"stage"
 };
 
