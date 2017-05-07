@@ -5,6 +5,7 @@
 #include "../config.h"
 #endif
 
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -26,6 +27,7 @@ class FileHelper {
 	static bool isDir(const std::string& path);
 	static bool isValidRepoPath(/* cwd */);
 	static bool isValidRepoPath(const std::string& path);
+	static std::string pathRelativeTo(const std::string& base_path, const std::string& path);
 	static std::vector<std::string> getRecusriveFileListing(const std::string& path);
 	static std::string hash_file(const std::string& filepath);
 

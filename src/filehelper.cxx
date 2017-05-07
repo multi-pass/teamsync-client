@@ -39,6 +39,85 @@ bool FileHelper::isValidRepoPath(const std::string& path) {
 	return FileHelper::isDir(ts_path);
 }
 
+// FIXME: This implementation is probably the ugliest one to find.
+// It needed to be done fast, but wants to be rewritten!
+std::string FileHelper::pathRelativeTo(const std::string& base_path,
+									   const std::string& path) {
+	std::vector<std::string> base_components, path_components;
+	std::string filename;
+
+	{
+		std::stringstream ss;
+		ss.str(base_path);
+
+		std::string pcomp;
+		while (std::getline(ss, pcomp, '/')) {
+			base_components.insert(base_components.end(), pcomp);
+		}
+
+		if (!base_components.empty()) {
+			if (!FileHelper::isDir(base_path)) {
+				base_components.pop_back();
+			}
+			if (base_components.front().empty()) {
+				base_components.erase(base_components.begin());
+			}
+		}
+	}
+	{
+		std::stringstream ss;
+		ss.str(path);
+
+		std::string pcomp;
+		while (std::getline(ss, pcomp, '/')) {
+			path_components.insert(path_components.end(), pcomp);
+		}
+		if (!path_components.empty()) {
+			if (!FileHelper::isDir(path)) {
+				filename = path_components.back();
+				path_components.pop_back();
+			}
+
+			if (path_components.front().empty()) {
+				path_components.erase(path_components.begin());
+			}
+		}
+	}
+
+	if (base_components.empty()) { return path; }
+
+	// trim common parts from the beginning
+	while (base_components.front() == path_components.front()) {
+		base_components.erase(base_components.begin());
+		path_components.erase(path_components.begin());
+	}
+
+	// insert "go up" components
+	std::vector<std::string>::size_type base_comp_count = base_components.size();
+
+	std::string relpath(".");
+	{
+		std::ostringstream os;
+		for (int i = 0; i < base_comp_count; ++i) { os << "/.."; }
+
+		relpath += (os.str() + "/");
+	}
+
+	// append rest of path
+	{
+		std::ostringstream os;
+		std::copy(path_components.begin(), path_components.end(),
+				  std::ostream_iterator<std::string>(os, "/"));
+
+		relpath += os.str();
+	}
+
+	if (!filename.empty()) {
+		relpath += filename;
+	}
+
+	return relpath;
+}
 
 bool listdir(const std::string& path, std::vector<std::string>& list) {
 	bool errors = false;
