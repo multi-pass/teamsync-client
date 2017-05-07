@@ -39,6 +39,65 @@ bool FileHelper::isValidRepoPath(const std::string& path) {
 	return FileHelper::isDir(ts_path);
 }
 
+
+bool listdir(const std::string& path, std::vector<std::string>& list) {
+	bool errors = false;
+
+	// ensure path ends with a slash
+	std::string in_path(path);
+	if (path.compare((path.length() - 1), 1, "/")) {
+		in_path += "/";
+	}
+
+	struct dirent *entry;
+	DIR *dp;
+
+	dp = opendir(in_path.c_str());
+
+	if (dp == NULL) {
+		perror(("opendir(" + in_path + ")").c_str());
+		return false;
+	}
+
+	std::vector<std::string> subdirs;
+
+	while ((entry = readdir(dp))) {
+		std::string d_name(entry->d_name);
+		std::string d_path(in_path + d_name);
+
+		if ("." == d_name || ".." == d_name) { continue; }
+
+		if (FileHelper::isDir(d_path)) {
+			if (!d_name.compare(0, 3, ".ts")) {
+				// ignore repo files
+				continue;
+			}
+
+			subdirs.insert(subdirs.end(), (d_path + "/"));
+		} else {
+			// add element to file list
+			list.insert(list.end(), d_path);
+		}
+	}
+
+	closedir(dp);
+
+	// go through subdirs
+	for (std::vector<std::string>::iterator it = subdirs.begin(),
+			 end = subdirs.end(); it != end; ++it) {
+		errors |= !listdir(*it, list);
+	}
+
+	return !errors;
+}
+
+
+std::vector<std::string> FileHelper::getRecusriveFileListing(const std::string& path) {
+	std::vector<std::string> list;
+	listdir(path, list);
+	return list;
+}
+
 std::string FileHelper::hash_file(const std::string& filepath) {
 #if HAVE_CRYPTO
 	// Use OpenSSL's libcrypto to calculate file hashes
