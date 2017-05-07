@@ -21,6 +21,7 @@
 class FileHelper {
 	public:
 	static std::string getWorkingDir();
+	static bool isDir(const std::string& path);
 	static bool isValidRepoPath(/* cwd */);
 	static bool isValidRepoPath(const std::string& path);
 

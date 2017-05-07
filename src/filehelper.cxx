@@ -15,6 +15,16 @@ std::string FileHelper::getWorkingDir() {
 	return cwd;
 }
 
+bool FileHelper::isDir(const std::string& path) {
+	struct stat st;
+	if (stat(path.c_str(), &st)) {
+		// stat failed
+		return false;
+	}
+
+	return S_ISDIR(st.st_mode);
+}
+
 bool FileHelper::isValidRepoPath() {
 	return FileHelper::isValidRepoPath(FileHelper::getWorkingDir());
 }
@@ -25,14 +35,8 @@ bool FileHelper::isValidRepoPath(const std::string& path) {
 		return false;
 	}
 
-	std::string ts_path (path + "/.ts/");
-	struct stat st = {};
-	if (stat(ts_path.c_str(), &st)) {
-		// stat failed
-		return false;
-	}
-
-	return S_ISDIR(st.st_mode);
+	std::string ts_path(path + "/.ts/");
+	return FileHelper::isDir(ts_path);
 }
 
 std::string FileHelper::hash_file(const std::string& filepath) {
