@@ -13,8 +13,9 @@ static const char *repo_files[] = {
 	"stage"
 };
 
-InitRepoCommand::InitRepoCommand(const std::string& working_dir) {
-	this->cwd = working_dir;
+InitRepoCommand::InitRepoCommand(const std::string& working_dir)
+	: cwd(working_dir), _result(-1) {
+
 }
 
 void InitRepoCommand::run(const std::map<char, std::string> *options) {
