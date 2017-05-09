@@ -17,17 +17,20 @@ enum OptionArgument {
 };
 
 class OptionsResult {
-	public:
-	OptionsResult(std::map<char, std::string> *options,
-				  std::list<char> *missing_arguments,
-				  std::list<std::string> *unknown_options,
-				  std::list<std::string> *non_option_arguments);
-	~OptionsResult();
+	friend class OptionsParser;
 
+	public:
+	~OptionsResult();
 	const std::map<char, std::string> * const options;
 	const std::list<char> * const options_with_missing_arguments;
 	const std::list<std::string> * const unknown_options;
 	const std::list<std::string> * const non_option_arguments;
+
+	private:
+	OptionsResult(std::map<char, std::string> *options,
+				  std::list<char> *missing_arguments,
+				  std::list<std::string> *unknown_options,
+				  std::list<std::string> *non_option_arguments);
 };
 
 class OptionsParser {
