@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+#if HAVE_CONFIG_H
+#include "../config.h"
+#endif
+
 #include "commandfactory.hxx"
 #include "optionsparser.hxx"
 
