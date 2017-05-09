@@ -8,7 +8,7 @@
 class ServerSyncCommand : public Command {
 	public:
 	ServerSyncCommand(const std::string& working_dir);
-	void run();
+	void run(const std::map<char, std::string> *options);
 	int getResult();
 };
 

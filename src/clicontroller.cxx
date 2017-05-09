@@ -70,7 +70,7 @@ int CLIController::dispatch(int argc, char *argv[]) {
 	CommandFactory::create(op, &cmd);
 
 	if (cmd) {
-		cmd->run();
+		cmd->run(args.options);
 
 		int res = cmd->getResult();
 		delete cmd;

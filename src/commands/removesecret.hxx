@@ -8,7 +8,7 @@
 class RemoveSecretCommand : public Command {
 	public:
 	RemoveSecretCommand(const std::string& working_dir);
-	void run();
+	void run(const std::map<char, std::string> *options);
 	int getResult();
 };
 
