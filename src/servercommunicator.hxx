@@ -3,11 +3,11 @@
 
 class ServerCommunicator {
 	public:
-	bool Authorize();
-	void GetFullTree();
-	int AddSecret();
-	int SetSecret();
-	int DeleteSecret();
+	bool authorize();
+	void getFullTree();
+	int addSecret();
+	int setSecret();
+	int deleteSecret();
 };
 
 #endif

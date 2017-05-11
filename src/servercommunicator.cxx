@@ -1,21 +1,21 @@
 #include "servercommunicator.hxx"
 
-bool ServerCommunicator::Authorize() {
 
 }
 
-void ServerCommunicator::GetFullTree() {
+bool ServerCommunicator::authorize() {
 
 }
 
-int ServerCommunicator::AddSecret() {
+void ServerCommunicator::getFullTree() {
+int ServerCommunicator::addSecret() {
 
 }
 
-int ServerCommunicator::SetSecret() {
+int ServerCommunicator::setSecret() {
 
 }
 
-int ServerCommunicator::DeleteSecret() {
+int ServerCommunicator::deleteSecret() {
 
 }
