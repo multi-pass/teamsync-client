@@ -26,7 +26,7 @@ std::map<std::string, CommandType> define_aliases() {
 }
 
 static const std::map<std::string, CommandType> aliases(define_aliases());
-static AppConfig appconfig(FileHelper::getWorkingDir());
+static AppConfig appconfig((FileHelper::getWorkingDir() + "/.ts/config.json"));
 
 
 
