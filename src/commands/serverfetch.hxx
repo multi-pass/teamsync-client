@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "../servercommunicator.hxx"
 #include "../command.hxx"
 
 class ServerFetchCommand : public Command {
@@ -12,6 +13,12 @@ class ServerFetchCommand : public Command {
 					   const std::string& pgpid);
 	void run(const std::map<char, std::string> *options);
 	int getResult();
+
+	private:
+	std::string cwd;
+	std::string server_url;
+	std::string pgpid;
+	int _result;
 };
 
 #endif

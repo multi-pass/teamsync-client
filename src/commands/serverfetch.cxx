@@ -8,9 +8,10 @@ ServerFetchCommand::ServerFetchCommand(const std::string& working_dir,
 }
 
 void ServerFetchCommand::run(const std::map<char, std::string> *options) {
-	std::cout << "Running server fetch command" << std::endl;
+	ServerCommunicator comm(this->server_url);
+	comm.authenticate(this->pgpid);
 }
 
 int ServerFetchCommand::getResult() {
-
+	return this->_result;
 }
