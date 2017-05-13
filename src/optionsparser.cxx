@@ -58,8 +58,6 @@ OptionsResult OptionsParser::parse() {
 			if (c == ':') {
 				missing_arguments->insert(missing_arguments->end(), optopt);
 			} else {
-				fprintf(stderr, "longindex = %d\n", longindex);
-				if (longindex) fprintf(stderr, " => %s\n", this->longmap[longindex].name);
 				unknown_options->insert(unknown_options->end(),
 										(longindex
 										 ? std::string(this->longmap[longindex].name)
@@ -68,8 +66,8 @@ OptionsResult OptionsParser::parse() {
 		} else {
 			// valid option
 			options->insert(std::make_pair(c, (optarg
-											  ? std::string(optarg, std::strlen(optarg))
-											  : std::string())));
+											  ? std::string(optarg)
+											  : "")));
 		}
 	}
 
