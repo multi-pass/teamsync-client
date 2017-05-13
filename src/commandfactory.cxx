@@ -24,7 +24,8 @@ std::map<std::string, CommandType> define_aliases() {
 	aliases.insert(std::make_pair("sync", SERVER_SYNC_COMMAND));
 	return aliases;
 }
-std::map<std::string, CommandType> aliases = define_aliases();
+
+static const std::map<std::string, CommandType> aliases(define_aliases());
 
 
 void CommandFactory::create(const std::string command_string, Command **command) {
@@ -36,7 +37,7 @@ void CommandFactory::create(const std::string command_string, Command **command)
 	// Resolve aliases
 	CommandType type = INVALID_COMMAND;
 	{
-		std::map<std::string, CommandType>::iterator type_it =
+		std::map<std::string, CommandType>::const_iterator type_it =
 			aliases.find(command_string);
 		if (type_it != aliases.end()) {
 			type = type_it->second;
