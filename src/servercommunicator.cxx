@@ -1,11 +1,11 @@
 #include "servercommunicator.hxx"
 
-ServerCommunicator::ServerCommunicator(std::string server_url)
+ServerCommunicator::ServerCommunicator(const std::string& server_url)
 	: server_url(server_url) {
 
 }
 
-bool ServerCommunicator::authorize() {
+bool ServerCommunicator::authenticate(const std::string& pgpid) {
 
 }
 

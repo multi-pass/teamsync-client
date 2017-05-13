@@ -8,8 +8,8 @@
 
 class ServerCommunicator {
 	public:
-	ServerCommunicator(std::string server_url);
-	bool authorize();
+	ServerCommunicator(const std::string& server_url);
+	bool authenticate(const std::string& pgpid);
 	void getFullTree();
 	int addSecret();
 	int setSecret();
