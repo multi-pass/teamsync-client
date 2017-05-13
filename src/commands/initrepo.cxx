@@ -21,14 +21,14 @@ InitRepoCommand::InitRepoCommand(const std::string& working_dir)
 void InitRepoCommand::run(const std::map<char, std::string> *options) {
 	std::string repo_path(this->cwd);
 
-	std::map<char, std::string> chdir_opt = options->find('C');
+	std::map<char, std::string>::const_iterator chdir_opt = options->find('C');
 	if (chdir_opt != options->end()) {
 		repo_path = chdir_opt->second;
 	}
 
 	const std::string repo_folder = (repo_path + "/.ts/");
 
-	if (FileHelper::isValidRepoPath(this->cwd)) {
+	if (FileHelper::isValidRepoPath(repo_path)) {
 		fprintf(stderr, "There is already a repo present in `%s'\n",
 				repo_folder.c_str());
 		this->_result = 1;
@@ -70,7 +70,6 @@ void InitRepoCommand::run(const std::map<char, std::string> *options) {
 		printf("Empty TeamSync repository could not be initialised in %s\n",
 			   repo_folder.c_str());
 	}
-
 }
 
 int InitRepoCommand::getResult() {
