@@ -8,7 +8,7 @@ static const char *repo_folders[] = {
 };
 
 static const char *repo_files[] = {
-	"config",
+	"config.json",
 	"repo.state",
 	"stage"
 };
