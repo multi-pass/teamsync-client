@@ -26,6 +26,8 @@ std::map<std::string, CommandType> define_aliases() {
 }
 
 static const std::map<std::string, CommandType> aliases(define_aliases());
+static AppConfig appconfig(FileHelper::getWorkingDir());
+
 
 
 void CommandFactory::create(const std::string command_string, Command **command) {
@@ -71,9 +73,12 @@ void CommandFactory::create(const std::string command_string, Command **command)
 		case REMOVE_SECRET_COMMAND:
 			*command = new RemoveSecretCommand(cwd);
 			goto postprocessing;
-		case SERVER_FETCH_COMMAND:
-			*command = new ServerFetchCommand(cwd);
+		case SERVER_FETCH_COMMAND: {
+			const std::string& conf_server = appconfig.getString("server_url");
+			const std::string& conf_pgpid = appconfig.getString("pgpid");
+			*command = new ServerFetchCommand(cwd, conf_server, conf_pgpid);
 			goto postprocessing;
+		}
 		case SERVER_PUSH_COMMAND:
 			*command = new ServerPushCommand(cwd);
 			goto postprocessing;

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "appconfig.hxx"
 #include "filehelper.hxx"
 #include "command.hxx"
 

@@ -7,7 +7,9 @@
 
 class ServerFetchCommand : public Command {
 	public:
-	ServerFetchCommand(const std::string& working_dir);
+	ServerFetchCommand(const std::string& working_dir,
+					   const std::string& server_url,
+					   const std::string& pgpid);
 	void run(const std::map<char, std::string> *options);
 	int getResult();
 };

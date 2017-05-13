@@ -1,6 +1,9 @@
 #include "serverfetch.hxx"
 
-ServerFetchCommand::ServerFetchCommand(const std::string& working_dir) {
+ServerFetchCommand::ServerFetchCommand(const std::string& working_dir,
+									   const std::string& server_url,
+									   const std::string& pgpid)
+	: cwd(working_dir), server_url(server_url), pgpid(pgpid) {
 
 }
 
