@@ -25,7 +25,8 @@ void print_help() {
 
 int CLIController::dispatch(int argc, char *argv[]) {
 	OptionsParser opts_parser(argc, argv);
-	opts_parser.setOptstring("hV");
+	opts_parser.setOptstring("C:hV");
+	opts_parser.addLongMapping("chdir", 'C', required);
 	opts_parser.addLongMapping("help", 'h', none);
 	opts_parser.addLongMapping("usage", 'u', none);
 	OptionsResult args = opts_parser.parse();
@@ -45,6 +46,13 @@ int CLIController::dispatch(int argc, char *argv[]) {
 	for (std::map<char, std::string>::const_iterator it = args.options->begin(),
 			 end = args.options->end(); it != end; ++it) {
 		switch (it->first) {
+		case 'C': {
+			if (chdir(it->second.c_str())) {
+				perror(("chdir(" + it->second + ")").c_str());
+				return 1;
+			}
+			break;
+		}
 		case 'h':
 			print_help();
 			return 0;
