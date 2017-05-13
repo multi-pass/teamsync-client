@@ -19,7 +19,14 @@ InitRepoCommand::InitRepoCommand(const std::string& working_dir)
 }
 
 void InitRepoCommand::run(const std::map<char, std::string> *options) {
-	const std::string repo_folder = (this->cwd + "/.ts/");
+	std::string repo_path(this->cwd);
+
+	std::map<char, std::string> chdir_opt = options->find('C');
+	if (chdir_opt != options->end()) {
+		repo_path = chdir_opt->second;
+	}
+
+	const std::string repo_folder = (repo_path + "/.ts/");
 
 	if (FileHelper::isValidRepoPath(this->cwd)) {
 		fprintf(stderr, "There is already a repo present in `%s'\n",
