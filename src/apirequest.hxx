@@ -5,6 +5,12 @@
 
 #include <curl/curl.h>
 
+////////////////////////////////////////////////////////////////////////////////
+/// Note:
+///  These classes are all highly thread-unsafe!
+///  Make sure that only one request is using a HTTPSession at the time.
+////////////////////////////////////////////////////////////////////////////////
+
 
 enum HTTPMethod {
 	GET,
@@ -23,8 +29,6 @@ class HTTPSession {
 	~HTTPSession();
 
 	private:
-	CURL *getCURLHandle();
-
 	CURL *curl = NULL;
 };
 
@@ -35,6 +39,8 @@ class APIRequest {
 
 	APIResponse send();
 
+	private:
+	HTTPSession session;
 };
 
 

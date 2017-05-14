@@ -18,6 +18,7 @@ class ServerCommunicator {
 
 	private:
 	std::string server_url;
+	HTTPSession session;
 };
 
 #endif
