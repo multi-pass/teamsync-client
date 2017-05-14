@@ -16,6 +16,7 @@ class ServerFetchCommand : public Command {
 	int getResult();
 
 	protected:
+	ServerCommunicator comm;
 	std::string cwd;
 	std::string server_url;
 	std::string pgpid;
