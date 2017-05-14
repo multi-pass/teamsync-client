@@ -35,6 +35,8 @@ void ServerCommunicator::getFullTree(void (*callback)(const std::string&,
 	if (json_document.IsObject()) {
 		traverseTree("", json_document, callback, userdata);
 	}
+}
+
 void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 				  void (*callback)(const std::string&, const std::string&,
 								   void *), void *callback_userdata) {
