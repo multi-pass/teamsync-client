@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "../filehelper.hxx"
 #include "../servercommunicator.hxx"
 #include "../command.hxx"
 

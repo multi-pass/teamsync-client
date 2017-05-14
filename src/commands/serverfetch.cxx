@@ -1,6 +1,6 @@
 #include "serverfetch.hxx"
 
-void tree_callback(const std::string& path, const std::string& hash_str);
+static void tree_callback(const std::string& path, const std::string& hash_str);
 
 ServerFetchCommand::ServerFetchCommand(const std::string& working_dir,
 									   const std::string& server_url,
@@ -15,8 +15,21 @@ void ServerFetchCommand::run(const std::map<char, std::string> *options) {
 	comm.getFullTree(&tree_callback);
 }
 
-void tree_callback(const std::string& path, const std::string& hash_str) {
-	printf("%s (%s)\n", path.c_str(), hash_str.c_str());
+static void tree_callback(const std::string& path,
+						  const std::string& hash_str) {
+	const std::string& cwd = FileHelper::getWorkingDir();
+	const std::string& local_path = (cwd + path);
+
+
+	// Check if file exists
+	if (FileHelper::exists(local_path)) {
+		// Check its hash
+		if (!FileHelper::verifyFile(local_path, hash_str)) {
+			std::cout << "Hashes dont match" << std::endl;
+		}
+	} else {
+		std::cout << "File " << path << " is missing locally" << std::endl;
+	}
 }
 
 int ServerFetchCommand::getResult() {
