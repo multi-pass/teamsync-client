@@ -1,12 +1,13 @@
 #ifndef CLICONTROLLER_H
 #define CLICONTROLLER_H
 
-#include <stdio.h>
-#include <unistd.h>
-
 #if HAVE_CONFIG_H
 #include "../config.h"
 #endif
+
+
+#include <stdio.h>
+#include <unistd.h>
 
 #include "commandfactory.hxx"
 #include "optionsparser.hxx"

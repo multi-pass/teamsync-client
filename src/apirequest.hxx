@@ -1,6 +1,11 @@
 #ifndef APIREQUEST_H
 #define APIREQUEST_H
 
+#if HAVE_CONFIG_H
+#include "../config.h"
+#endif
+
+
 #include <string>
 
 #include <curl/curl.h>

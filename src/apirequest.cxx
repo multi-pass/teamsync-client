@@ -98,6 +98,10 @@ HTTPSession::HTTPSession() {
 
 	// Default options
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
+#if HAVE_CONFIG_H
+	curl_easy_setopt(curl, CURLOPT_USERAGENT,
+					 (PACKAGE_NAME "/" PACKAGE_VERSION));
+#endif
 
 	// Set cookie file to an invalid path
 	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "-");
