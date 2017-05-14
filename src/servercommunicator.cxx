@@ -19,7 +19,7 @@ bool ServerCommunicator::authenticate(const std::string& pgpid) {
 	rapidjson::StringBuffer json_buf;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(json_buf);
 	req_data.Accept(writer);
-	req.setPOSTFields(json_buf.GetString());
+	req.setRequestBody(json_buf.GetString());
 	APIResponse resp = req.send();
 }
 
@@ -118,7 +118,7 @@ int ServerCommunicator::setSecret(const std::string& path,
 	rapidjson::StringBuffer json_buf;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(json_buf);
 	req_data.Accept(writer);
-	req.setPOSTFields(json_buf.GetString());
+	req.setRequestBody(json_buf.GetString());
 
 	return req.send().response_code;
 }
