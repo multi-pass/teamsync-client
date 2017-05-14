@@ -91,6 +91,9 @@ HTTPSession::HTTPSession() {
 	// Default options
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
 
+	// Set cookie file to an invalid path
+	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "-");
+
 	this->curl = curl;
 }
 
