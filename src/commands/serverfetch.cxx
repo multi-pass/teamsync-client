@@ -1,6 +1,17 @@
 #include "serverfetch.hxx"
 
-static void tree_callback(const std::string& path, const std::string& hash_str);
+void tree_callback_helper(const std::string& path, const std::string& hash_str,
+						  void *userdata);
+
+class _ServerFetchCommand_TreeTraversal : public ServerFetchCommand {
+	private:
+	friend void tree_callback_helper(const std::string& path,
+									 const std::string& hash_str,
+									 void *userdata);
+
+	void treeCallback(const std::string& path, const std::string& hash_str);
+};
+
 
 ServerFetchCommand::ServerFetchCommand(const std::string& working_dir,
 									   const std::string& server_url,
@@ -15,8 +26,16 @@ void ServerFetchCommand::run(const std::map<char, std::string> *options) {
 	comm.getFullTree(&tree_callback);
 }
 
-static void tree_callback(const std::string& path,
-						  const std::string& hash_str) {
+void tree_callback_helper(const std::string& path, const std::string& hash_str,
+						  void *userdata) {
+	_ServerFetchCommand_TreeTraversal *fetch =
+		(_ServerFetchCommand_TreeTraversal *)userdata;
+
+	fetch->treeCallback(path, hash_str);
+}
+
+void _ServerFetchCommand_TreeTraversal::treeCallback(const std::string& path,
+									  const std::string& hash_str) {
 	const std::string& cwd = FileHelper::getWorkingDir();
 	const std::string& local_path = (cwd + path);
 

@@ -15,10 +15,12 @@ class ServerFetchCommand : public Command {
 	void run(const std::map<char, std::string> *options);
 	int getResult();
 
-	private:
+	protected:
 	std::string cwd;
 	std::string server_url;
 	std::string pgpid;
+
+	private:
 	int _result;
 };
 

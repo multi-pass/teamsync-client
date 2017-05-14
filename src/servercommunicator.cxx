@@ -1,7 +1,8 @@
 #include "servercommunicator.hxx"
 
 void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
-				  void (*callback)(const std::string&, const std::string&));
+				  void (*callback)(const std::string&, const std::string&,
+								   void *), void *);
 
 ServerCommunicator::ServerCommunicator(const std::string& server_url)
 	: server_url(server_url) {
@@ -23,7 +24,8 @@ bool ServerCommunicator::authenticate(const std::string& pgpid) {
 }
 
 void ServerCommunicator::getFullTree(void (*callback)(const std::string&,
-													  const std::string&)) {
+													  const std::string&,
+													  void *), void *userdata) {
 	APIRequest req(GET, this->server_url, "/secrets", this->session);
 	APIResponse resp = req.send();
 
@@ -31,10 +33,11 @@ void ServerCommunicator::getFullTree(void (*callback)(const std::string&,
 	json_document.Parse(resp.http_response.c_str());
 
 	if (json_document.IsObject()) {
-		traverseTree("", json_document, callback);
+		traverseTree("", json_document, callback, userdata);
 	}
 void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
-				  void (*callback)(const std::string&, const std::string&)) {
+				  void (*callback)(const std::string&, const std::string&,
+								   void *), void *callback_userdata) {
 	std::string cur_path;
 
 	std::string folder_comp(tree_obj["path"].GetString());
@@ -68,7 +71,7 @@ void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 			}
 
 			// Call callback with secret
-			(*callback)(secret_path, hash_str);
+			(*callback)(secret_path, hash_str, callback_userdata);
 		}
 	}
 
@@ -77,7 +80,7 @@ void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 		for (rapidjson::Value::ConstValueIterator it = folders.Begin(),
 				 end = folders.End(); it != end; ++it) {
 			// Process subfolders recursively
-			traverseTree(cur_path, *it, callback);
+			traverseTree(cur_path, *it, callback, callback_userdata);
 		}
 	}
 }

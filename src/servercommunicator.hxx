@@ -18,8 +18,9 @@ class ServerCommunicator {
 	public:
 	ServerCommunicator(const std::string& server_url);
 	bool authenticate(const std::string& pgpid);
-	void getFullTree(void (*callback)(const std::string&,
-									  const std::string&));
+	void getFullTree(void (*callback)(const std::string&, const std::string&,
+									  void *),
+					 void *userdata);
 	int setSecret();
 	int deleteSecret();
 
