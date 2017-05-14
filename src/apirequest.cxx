@@ -22,6 +22,12 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 	case POST:
 		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		break;
+	case PUT:
+		curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+		break;
+	case DELETE:
+		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+		break;
 	default:
 		// Unsupported method
 		// TODO: Throw exception
