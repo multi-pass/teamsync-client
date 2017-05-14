@@ -5,6 +5,7 @@
 
 #include <curl/curl.h>
 
+
 enum HTTPMethod {
 	GET,
 	POST,
@@ -24,6 +25,7 @@ class APIRequest {
 	CURL *curl;
 };
 
+
 class HTTPSession {
 	friend class APIRequest;
 
@@ -34,7 +36,7 @@ class HTTPSession {
 	private:
 	CURL *getCURLHandle();
 
-	CURL *curl;
+	CURL *curl = NULL;
 };
 
 class APIResponse {

@@ -1,5 +1,10 @@
 #include "apirequest.hxx"
 
+
+////////////////////////////////////////////////////////////////////////////////
+//////    APIRequest
+////////////////////////////////////////////////////////////////////////////////
+
 APIRequest::APIRequest(HTTPMethod method, std::string server_url,
 						 std::string api_route) {
 	if (!(this->curl = curl_easy_init())) {
@@ -35,16 +40,18 @@ APIRequest::APIRequest(HTTPMethod method, std::string server_url,
 APIResponse APIRequest::execute() {
 	APIResponse response;
 
-	size_t (*write_callback)(char *, size_t, size_t, void *);
-	write_callback = &(APIResponse::writeCallback);
-
 	curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &response);
-	curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, write_callback);
+	curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, &(APIResponse::writeCallback));
 
 	curl_easy_perform(this->curl);
 
 	return response;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//////    APIResponse
+////////////////////////////////////////////////////////////////////////////////
 
 APIResponse::APIResponse() {
 
