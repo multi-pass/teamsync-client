@@ -72,10 +72,6 @@ void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 	}
 }
 
-int ServerCommunicator::addSecret() {
-
-}
-
 int ServerCommunicator::setSecret() {
 
 }

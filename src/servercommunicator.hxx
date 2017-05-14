@@ -13,7 +13,6 @@ class ServerCommunicator {
 	bool authenticate(const std::string& pgpid);
 	void getFullTree(void (*callback)(const std::string&,
 									  const std::string&));
-	int addSecret();
 	int setSecret();
 	int deleteSecret();
 
