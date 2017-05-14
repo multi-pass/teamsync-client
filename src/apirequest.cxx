@@ -10,6 +10,11 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 	: session(session), method(method) {
 	CURL *curl = this->session.curl;
 
+	// Reset handle
+	curl_easy_reset(curl);
+
+	// Default options
+	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
 	switch (this->method) {
 	case GET:
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
@@ -95,13 +100,6 @@ HTTPSession::HTTPSession() {
 	if (!(curl = curl_easy_init())) {
 		// TODO: Throw exception
 	}
-
-	// Default options
-	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
-#if HAVE_CONFIG_H
-	curl_easy_setopt(curl, CURLOPT_USERAGENT,
-					 (PACKAGE_NAME "/" PACKAGE_VERSION));
-#endif
 
 	// Set cookie file to an invalid path
 	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
