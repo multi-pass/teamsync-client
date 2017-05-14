@@ -15,17 +15,6 @@ enum HTTPMethod {
 
 class APIResponse;
 
-class APIRequest {
-	public:
-	APIRequest(HTTPMethod method, std::string server_url,
-			   std::string api_route);
-	APIResponse execute();
-
-	private:
-	CURL *curl;
-};
-
-
 class HTTPSession {
 	friend class APIRequest;
 
@@ -38,6 +27,16 @@ class HTTPSession {
 
 	CURL *curl = NULL;
 };
+
+class APIRequest {
+	public:
+	APIRequest(HTTPMethod method, const std::string& server_url,
+			   const std::string& api_route);
+
+	APIResponse send();
+
+};
+
 
 class APIResponse {
 	friend class APIRequest;

@@ -37,7 +37,7 @@ APIRequest::APIRequest(HTTPMethod method, std::string server_url,
 	curl_easy_setopt(this->curl, CURLOPT_URL, request_uri.c_str());
 }
 
-APIResponse APIRequest::execute() {
+APIResponse APIRequest::send() {
 	APIResponse response;
 
 	curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &response);

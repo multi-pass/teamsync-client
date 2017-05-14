@@ -15,7 +15,7 @@ bool ServerCommunicator::authenticate(const std::string& pgpid) {
 void ServerCommunicator::getFullTree(void (*callback)(const std::string&,
 													  const std::string&)) {
 	APIRequest req(GET, this->server_url, "/secrets");
-	APIResponse resp = req.execute();
+	APIResponse resp = req.send();
 
 	rapidjson::Document json_document;
 	json_document.Parse(resp.http_response.c_str());
