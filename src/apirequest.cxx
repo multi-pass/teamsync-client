@@ -104,7 +104,7 @@ HTTPSession::HTTPSession() {
 #endif
 
 	// Set cookie file to an invalid path
-	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "-");
+	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
 
 	this->curl = curl;
 }
