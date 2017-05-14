@@ -30,7 +30,7 @@ class FileHelper {
 	static bool isValidRepoPath(const std::string& path);
 	static std::string pathRelativeTo(const std::string& base_path,
 									  const std::string& path);
-	static std::vector<std::string> getRecusriveFileListing(const std::string& path);
+	static std::vector<std::string> getRecursiveFileListing(const std::string& path);
 	static std::string hash_file(const std::string& filepath);
 
 	static bool verifyFile(const std::string& path, const std::string& hash_str);

@@ -176,7 +176,7 @@ bool listdir(const std::string& path, std::vector<std::string>& list) {
 }
 
 
-std::vector<std::string> FileHelper::getRecusriveFileListing(const std::string& path) {
+std::vector<std::string> FileHelper::getRecursiveFileListing(const std::string& path) {
 	std::vector<std::string> list;
 	listdir(path, list);
 	return list;
