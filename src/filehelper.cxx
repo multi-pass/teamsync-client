@@ -282,3 +282,16 @@ std::string FileHelper::libcrypto_hash_file(const std::string& digest_name,
 	return "";
 }
 #endif
+
+bool FileHelper::verifyFile(const std::string& path,
+							const std::string& hash_str) {
+	std::stringstream ss(hash_str);
+	std::string dgst_algo;
+	std::string hash;
+	std::getline(ss, dgst_algo, ss.widen(':'));
+	std::getline(ss, hash);
+
+	std::string file_hash(FileHelper::libcrypto_hash_file(dgst_algo, path));
+
+	return (hash == file_hash);
+}
