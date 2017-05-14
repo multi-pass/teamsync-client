@@ -1,7 +1,6 @@
 #ifndef OPTIONSPARSER_H
 #define OPTIONSPARSER_H
 
-#include <cstring>
 #include <string>
 #include <list>
 #include <map>
@@ -9,6 +8,7 @@
 
 #include <unistd.h>
 #include <getopt.h>
+#include <string.h>
 
 enum OptionArgument {
 	none = 0,

@@ -9,9 +9,9 @@ void OptionsParser::setOptstring(const char *optstring) {
 	// we prepend a colon to the optstring, to make getopt return ':' instead
 	// of '?' when an option is missing an argument.
 
-	char *_str = new char[(std::strlen(optstring)+1)];
+	char *_str = new char[(strlen(optstring) + 1)];
 	_str[0] = ':';
-	std::strcpy((_str+1), optstring);
+	strcpy((_str+1), optstring);
 	this->optstring = _str;
 }
 
@@ -28,7 +28,7 @@ void OptionsParser::addLongMapping(const char *longopt, char opt,
 void OptionsParser::removeLongMapping(const char *longopt) {
 	for (std::vector<option>::iterator it = this->longmap.begin(),
 			 end = this->longmap.end(); it != end; ++it) {
-		if (!std::strcmp(it->name, longopt)) {
+		if (!strcmp(it->name, longopt)) {
 			this->longmap.erase(it);
 			break;
 		}
@@ -53,21 +53,19 @@ OptionsResult OptionsParser::parse() {
 	// Parse options
 	while (-1 != (c = getopt_long(this->argc, this->argv, this->optstring,
 							longopts, &longindex))) {
-		bool valid_opt = (c != '?' && c != ':' && std::strchr(optstring, optopt));
-		if (!valid_opt || c == '?' || c == ':') {
+		bool valid_opt = (c != '?' && c != ':' && strchr(optstring, optopt));
+		if (!valid_opt) {
 			if (c == ':') {
 				missing_arguments->insert(missing_arguments->end(), optopt);
 			} else {
 				unknown_options->insert(unknown_options->end(),
 										(longindex
-										 ? std::string(this->longmap[longindex].name)
+										 ? this->longmap[longindex].name
 										 : std::string(1, optopt)));
 			}
 		} else {
 			// valid option
-			options->insert(std::make_pair(c, (optarg
-											  ? std::string(optarg)
-											  : "")));
+			options->insert(std::make_pair(c, (optarg ? optarg : "")));
 		}
 	}
 
