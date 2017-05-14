@@ -15,6 +15,11 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 
 	// Default options
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
+#if HAVE_CONFIG_H
+	curl_easy_setopt(curl, CURLOPT_USERAGENT,
+					 (PACKAGE_NAME "/" PACKAGE_VERSION));
+#endif
+
 	switch (this->method) {
 	case GET:
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
