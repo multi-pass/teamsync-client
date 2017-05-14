@@ -195,6 +195,7 @@ std::string FileHelper::hash_file(const std::string& filepath) {
 #error libcrypto supports none of the supported algorithms
 #endif
 
+	// Call libcrypto_hash_file
 	std::string hash_str(FileHelper::libcrypto_hash_file(dgst_algo, filepath));
 
 	return (!hash_str.empty()
