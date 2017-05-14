@@ -35,12 +35,13 @@ class HTTPSession {
 class APIRequest {
 	public:
 	APIRequest(HTTPMethod method, const std::string& server_url,
-			   const std::string& api_route);
+			   const std::string& api_route, HTTPSession& session);
 
 	APIResponse send();
 
 	private:
 	HTTPSession session;
+	HTTPMethod method;
 };
 
 

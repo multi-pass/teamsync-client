@@ -6,16 +6,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
-					   const std::string& api_route, HTTPSession& session) {
-	this->session = session;
-	CURL *curl = session.curl;
+					   const std::string& api_route, HTTPSession& session)
+	: session(session), method(method) {
+	CURL *curl = this->session.curl;
 
-	switch (method) {
+	switch (this->method) {
 	case GET:
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 		break;
 	case POST:
-		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
+		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		break;
 	default:
 		// Unsupported method
