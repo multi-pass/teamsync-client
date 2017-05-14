@@ -10,6 +10,8 @@ class _ServerFetchCommand_TreeTraversal : public ServerFetchCommand {
 									 void *userdata);
 
 	void treeCallback(const std::string& path, const std::string& hash_str);
+	void updateLocalSecret(const std::string& remote_path,
+						   const std::string& local_path);
 };
 
 
@@ -33,20 +35,29 @@ void tree_callback_helper(const std::string& path, const std::string& hash_str,
 	fetch->treeCallback(path, hash_str);
 }
 
+void _ServerFetchCommand_TreeTraversal::updateLocalSecret(const std::string& remote_path,
+														  const std::string& local_path) {
+	const std::string secret_base64 = this->comm.getSecret(remote_path);
+
+	if (!secret_base64.empty()) {
+		std::ofstream out(local_path.c_str(),
+						  (std::ios_base::out | std::ios_base::trunc));
+		out << base64_decode(secret_base64);
+		out.close();
+	}
+	// TODO: Else pass error to user
+}
+
 void _ServerFetchCommand_TreeTraversal::treeCallback(const std::string& path,
 									  const std::string& hash_str) {
 	const std::string& cwd = FileHelper::getWorkingDir();
 	const std::string& local_path = (cwd + path);
 
-
 	// Check if file exists
-	if (FileHelper::exists(local_path)) {
-		// Check its hash
-		if (!FileHelper::verifyFile(local_path, hash_str)) {
-			std::cout << "Hashes dont match" << std::endl;
-		}
-	} else {
-		std::cout << "File " << path << " is missing locally" << std::endl;
+	if (!FileHelper::exists(local_path) || !FileHelper::verifyFile(local_path, hash_str)) {
+		// update secret
+		std::cout << "Getting secret " << path << "..." << std::endl;
+		this->updateLocalSecret(path, local_path);
 	}
 }
 

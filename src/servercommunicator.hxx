@@ -21,6 +21,7 @@ class ServerCommunicator {
 	void getFullTree(void (*callback)(const std::string&, const std::string&,
 									  void *),
 					 void *userdata);
+	const std::string /* base64 */ getSecret(const std::string& path);
 	int setSecret();
 	int deleteSecret();
 

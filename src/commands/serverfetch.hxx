@@ -1,6 +1,7 @@
 #ifndef SERVERFETCHCOMMAND_H
 #define SERVERFETCHCOMMAND_H
 
+#include <fstream>
 #include <iostream>
 
 #include "../filehelper.hxx"

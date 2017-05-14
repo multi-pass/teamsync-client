@@ -85,6 +85,26 @@ void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 	}
 }
 
+const std::string /* base64 */ ServerCommunicator::getSecret(const std::string& path) {
+	APIRequest req(GET, this->server_url, ("/secrets" + path), this->session);
+	APIResponse resp = req.send();
+
+	rapidjson::Document json_document;
+	json_document.Parse(resp.http_response.c_str());
+
+	if (!json_document.IsObject()) {
+		fprintf(stderr, "Getting secret %s failed.\n", path.c_str());
+		return "";
+	}
+
+	if (!json_document.HasMember("payload")) {
+		fprintf(stderr, "Secret %s is invalid.\n", path.c_str());
+		return "";
+	}
+
+	return json_document["payload"].GetString();
+}
+
 int ServerCommunicator::setSecret() {
 
 }
