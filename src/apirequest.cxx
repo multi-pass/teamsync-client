@@ -49,7 +49,15 @@ APIResponse APIRequest::send() {
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &(APIResponse::writeCallback));
 
-	curl_easy_perform(curl);
+	CURLcode op_success = curl_easy_perform(curl);
+
+	if (CURLE_OK == op_success) {
+		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &(response.response_code));
+
+		char *content_type = NULL;
+		curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &content_type);
+		response.content_type = content_type;
+	}
 
 	return response;
 }

@@ -53,6 +53,8 @@ class APIResponse {
 	friend class APIRequest;
 
 	public:
+	long response_code;
+	std::string content_type;
 	std::string http_response;
 
 	private:
