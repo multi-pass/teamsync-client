@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "../base64.hxx"
 #include "../filehelper.hxx"
 #include "../servercommunicator.hxx"
 #include "../command.hxx"
