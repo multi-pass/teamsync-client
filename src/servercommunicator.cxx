@@ -105,10 +105,23 @@ const std::string /* base64 */ ServerCommunicator::getSecret(const std::string& 
 	return json_document["payload"].GetString();
 }
 
-int ServerCommunicator::setSecret() {
+int ServerCommunicator::setSecret(const std::string& path,
+								  const std::string& /* base64 */ payload) {
+	APIRequest req(PUT, this->server_url, ("/secrets" + path), this->session);
 
+	rapidjson::Document req_data;
+	req_data.SetObject();
+	req_data.AddMember("payload", payload, req_data.GetAllocator());
+
+	rapidjson::StringBuffer json_buf;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(json_buf);
+	req_data.Accept(writer);
+	req.setPOSTFields(json_buf.GetString());
+
+	APIResponse resp = req.send();
 }
 
-int ServerCommunicator::deleteSecret() {
-
+int ServerCommunicator::deleteSecret(const std::string& path) {
+	APIRequest req(DELETE, this->server_url, ("/secrets" + path), this->session);
+	req.send();
 }
