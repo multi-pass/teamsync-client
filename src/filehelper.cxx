@@ -15,6 +15,11 @@ std::string FileHelper::getWorkingDir() {
 	return cwd;
 }
 
+bool FileHelper::exists(const std::string& path) {
+	struct stat st;
+	return (stat(path.c_str(), &st) == 0);
+}
+
 bool FileHelper::isDir(const std::string& path) {
 	struct stat st;
 	if (stat(path.c_str(), &st)) {
