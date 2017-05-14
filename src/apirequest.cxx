@@ -32,6 +32,15 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 	curl_easy_setopt(curl, CURLOPT_URL, request_uri.c_str());
 }
 
+void APIRequest::setPOSTFields(const std::string& postfields) {
+	if (POST == this->method) {
+		CURL *curl = this->session.curl;
+		this->postfields = postfields;
+
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, this->postfields.c_str());
+	}
+}
+
 APIResponse APIRequest::send() {
 	APIResponse response;
 

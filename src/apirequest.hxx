@@ -37,11 +37,15 @@ class APIRequest {
 	APIRequest(HTTPMethod method, const std::string& server_url,
 			   const std::string& api_route, HTTPSession& session);
 
+	// Note: This method does nothing when the method is not POST
+	void setPOSTFields(const std::string& postfields);
+
 	APIResponse send();
 
 	private:
 	HTTPSession& session;
 	HTTPMethod method;
+	std::string postfields;
 };
 
 
