@@ -120,10 +120,10 @@ int ServerCommunicator::setSecret(const std::string& path,
 	req_data.Accept(writer);
 	req.setPOSTFields(json_buf.GetString());
 
-	APIResponse resp = req.send();
+	return req.send().response_code;
 }
 
 int ServerCommunicator::deleteSecret(const std::string& path) {
 	APIRequest req(DELETE, this->server_url, ("/secrets" + path), this->session);
-	req.send();
+	return req.send().response_code;
 }
