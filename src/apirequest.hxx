@@ -40,7 +40,7 @@ class APIRequest {
 	APIResponse send();
 
 	private:
-	HTTPSession session;
+	HTTPSession& session;
 	HTTPMethod method;
 };
 
