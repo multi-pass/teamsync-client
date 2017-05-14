@@ -5,8 +5,10 @@
 #include "../config.h"
 #endif
 
-
+#include <algorithm>
 #include <string>
+
+#include <string.h>
 
 #include <curl/curl.h>
 
@@ -43,14 +45,18 @@ class APIRequest {
 			   const std::string& api_route, HTTPSession& session);
 
 	// Note: This method does nothing when the method is not POST
-	void setPOSTFields(const std::string& postfields);
+	void setRequestBody(const std::string& request_body);
 
 	APIResponse send();
 
 	private:
+	// only for passing to cURL
+	static size_t readHelper(char *buffer, size_t size, size_t nitems,
+								 void *request_obj);
+
 	HTTPSession& session;
 	HTTPMethod method;
-	std::string postfields;
+	std::string request_body;
 };
 
 

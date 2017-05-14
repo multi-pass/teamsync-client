@@ -43,13 +43,31 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 	curl_easy_setopt(curl, CURLOPT_URL, request_uri.c_str());
 }
 
-void APIRequest::setPOSTFields(const std::string& postfields) {
-	if (POST == this->method) {
-		CURL *curl = this->session.curl;
-		this->postfields = postfields;
+void APIRequest::setRequestBody(const std::string& request_body) {
+	this->request_body = request_body;
+	CURL *curl = this->session.curl;
 
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, this->postfields.c_str());
+	if (POST == this->method) {
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, request_body.length());
+		curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, request_body.c_str());
+	} else {
+		curl_easy_setopt(curl, CURLOPT_READFUNCTION, &(APIRequest::readHelper));
+		// curl_easy_setopt(curl, CURLOPT_READDATA, &(this->request_body));
+		curl_easy_setopt(curl, CURLOPT_READDATA, (void *)this);
+		// curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, request_body.size());
 	}
+}
+
+size_t APIRequest::readHelper(char *buffer, size_t size, size_t nitems,
+								  void *request_obj) {
+	APIRequest *req = (APIRequest *)request_obj;
+	std::string& request_body = req->request_body;
+	// std::string& request_body = *((std::string *)request_obj);
+
+	const size_t numc(std::min<size_t>(request_body.length(), (nitems * size)));
+
+	strncpy(buffer, request_body.c_str(), numc);
+	return numc;
 }
 
 APIResponse APIRequest::send() {
