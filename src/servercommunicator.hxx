@@ -1,7 +1,14 @@
 #ifndef SERVERCOMMUNICATOR_H
 #define SERVERCOMMUNICATOR_H
 
+#undef RAPIDJSON_HAS_STDSTRING
+#define RAPIDJSON_HAS_STDSTRING 1
+
 #include <string>
+#include <rapidjson/rapidjson.h>
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 
 #include <stdio.h>
 

@@ -9,7 +9,17 @@ ServerCommunicator::ServerCommunicator(const std::string& server_url)
 }
 
 bool ServerCommunicator::authenticate(const std::string& pgpid) {
+	APIRequest req(POST, this->server_url, "/auth/requestlogin", this->session);
 
+	rapidjson::Document req_data;
+	req_data.SetObject();
+	req_data.AddMember("pgpid", pgpid, req_data.GetAllocator());
+
+	rapidjson::StringBuffer json_buf;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(json_buf);
+	req_data.Accept(writer);
+	req.setPOSTFields(json_buf.GetString());
+	APIResponse resp = req.send();
 }
 
 void ServerCommunicator::getFullTree(void (*callback)(const std::string&,
