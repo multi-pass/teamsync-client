@@ -13,6 +13,7 @@ class ServerFetchCommand : public Command {
 	ServerFetchCommand(const std::string& working_dir,
 					   const std::string& server_url,
 					   const std::string& pgpid);
+
 	void run(const std::map<char, std::string> *options);
 	int getResult();
 
@@ -21,8 +22,6 @@ class ServerFetchCommand : public Command {
 	std::string cwd;
 	std::string server_url;
 	std::string pgpid;
-
-	private:
 	int _result;
 };
 

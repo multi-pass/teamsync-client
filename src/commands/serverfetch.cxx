@@ -44,14 +44,15 @@ void _ServerFetchCommand_TreeTraversal::updateLocalSecret(const std::string& rem
 						  (std::ios_base::out | std::ios_base::trunc));
 		out << base64_decode(secret_base64);
 		out.close();
+	} else {
+		// TODO: pass error to user
+		this->_result = 1;
 	}
-	// TODO: Else pass error to user
 }
 
 void _ServerFetchCommand_TreeTraversal::treeCallback(const std::string& path,
 									  const std::string& hash_str) {
-	const std::string& cwd = FileHelper::getWorkingDir();
-	const std::string& local_path = (cwd + path);
+	const std::string local_path = (this->cwd + path);
 
 	// Check if file exists
 	if (!FileHelper::exists(local_path) || !FileHelper::verifyFile(local_path, hash_str)) {
