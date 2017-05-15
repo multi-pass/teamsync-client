@@ -31,11 +31,15 @@ void ServerCommunicator::getFullTree(void (*callback)(const std::string&,
 	APIRequest req(GET, this->server_url, "/secrets", this->session);
 	APIResponse resp = req.send();
 
-	rapidjson::Document json_document;
-	json_document.Parse(resp.http_response.c_str());
+	if (200 == resp.response_code) {
+		rapidjson::Document json_document;
+		json_document.Parse(resp.http_response.c_str());
 
-	if (json_document.IsObject()) {
-		traverseTree("", json_document, callback, userdata);
+		if (json_document.IsObject()) {
+			traverseTree("", json_document, callback, userdata);
+		}
+	} else {
+		fprintf(stderr, "Listing secrets failed.\n");
 	}
 }
 
