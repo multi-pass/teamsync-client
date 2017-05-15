@@ -10,6 +10,7 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
+#include <libgen.h>
 #include <stdio.h>
 
 #include "apirequest.hxx"

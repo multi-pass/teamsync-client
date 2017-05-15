@@ -1,5 +1,7 @@
 #include "servercommunicator.hxx"
 
+#define ARRLEN(arr) (sizeof(arr) / sizeof(*arr))
+
 void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 				  void (*callback)(const std::string&, const std::string&,
 								   void *), void *);
@@ -52,23 +54,33 @@ void traverseTree(const std::string& path, const rapidjson::Value& tree_obj,
 		for (rapidjson::Value::ConstValueIterator it = secrets.Begin(),
 				 end = secrets.End(); it != end; ++it) {
 			const rapidjson::Value& secret(*it);
+			if (!secret.HasMember("name") || !secret["name"].IsString()) {
+				// Invalid secret object
+				continue;
+			}
 			const std::string secret_name(secret["name"].GetString());
+
 			const std::string secret_path((cur_path + "/" + secret_name));
+
 			std::string hash_str("");
-			const rapidjson::Value& hash_obj = secret["hash"];
-			if (hash_obj.IsObject()) {
-				if (hash_obj.HasMember("sha256")) {
-					hash_str = (std::string("sha256:")
-								+ hash_obj["sha256"].GetString());
-				} else if (hash_obj.HasMember("ripemd160")) {
-					hash_str = (std::string("ripemd160:")
-								+ hash_obj["ripemd160"].GetString());
-				} else if (hash_obj.HasMember("sha1")) {
-					hash_str = (std::string("sha1:")
-								+ hash_obj["sha1"].GetString());
-				} else {
-					fprintf(stderr, "Unsupported hash algorithms for secret %s.\n",
-							secret_path.c_str());
+			if (secret.HasMember("hash")) {
+				const rapidjson::Value& hash_obj = secret["hash"];
+				if (hash_obj.IsObject()) {
+					static const char *dgst_algos[] = { "sha256", "ripemd160", "sha1" };
+					for (int i = 0, c = ARRLEN(dgst_algos); i < c; ++i) {
+						const std::string dgst_name(dgst_algos[i]);
+						if (hash_obj.HasMember(dgst_name)) {
+							const rapidjson::Value& hash(hash_obj[dgst_name]);
+							if (hash.IsString()) {
+								hash_str = (dgst_name + ":" + hash.GetString());
+								break;
+							}
+						}
+					}
+					if (hash_str.empty()) {
+						fprintf(stderr, "Unsupported hash algorithms for secret %s.\n",
+								secret_path.c_str());
+					}
 				}
 			}
 
@@ -120,7 +132,8 @@ int ServerCommunicator::setSecret(const std::string& path,
 	req_data.Accept(writer);
 	req.setRequestBody(json_buf.GetString());
 
-	return req.send().response_code;
+	APIResponse resp = req.send();
+	return resp.response_code;
 }
 
 int ServerCommunicator::deleteSecret(const std::string& path) {
