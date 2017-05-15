@@ -4,7 +4,7 @@ AddSecretCommand::AddSecretCommand(const std::string& working_dir) {
 
 }
 
-void AddSecretCommand::run(const std::map<char, std::string> *options) {
+void AddSecretCommand::run(const OptionsResult& options) {
 	std::cout << "Running add secret command" << std::endl;
 }
 

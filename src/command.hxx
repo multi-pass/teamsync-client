@@ -4,9 +4,11 @@
 #include <map>
 #include <string>
 
+#include "optionsparser.hxx"
+
 class Command {
 	public:
-	virtual void run(const std::map<char, std::string> *options) = 0;
+	virtual void run(const OptionsResult& options) = 0;
 	virtual int getResult() = 0;
 
 	virtual ~Command() {};

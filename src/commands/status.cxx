@@ -5,7 +5,7 @@ StatusCommand::StatusCommand(const std::string& working_dir)
 
 }
 
-void StatusCommand::run(const std::map<char, std::string> *options) {
+void StatusCommand::run(const OptionsResult& options) {
 	this->_result = 0;
 }
 

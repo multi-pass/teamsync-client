@@ -15,7 +15,7 @@ class ServerFetchCommand : public Command {
 					   const std::string& server_url,
 					   const std::string& pgpid);
 
-	void run(const std::map<char, std::string> *options);
+	void run(const OptionsResult& options);
 	int getResult();
 
 	protected:

@@ -18,7 +18,7 @@ InitRepoCommand::InitRepoCommand(const std::string& working_dir)
 
 }
 
-void InitRepoCommand::run(const std::map<char, std::string> *options) {
+void InitRepoCommand::run(const OptionsResult& options) {
 	const std::string& repo_path(this->cwd);
 	const std::string repo_folder = (repo_path + "/.ts/");
 

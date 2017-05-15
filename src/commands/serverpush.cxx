@@ -7,7 +7,7 @@ ServerPushCommand::ServerPushCommand(const std::string& working_dir,
 
 }
 
-void ServerPushCommand::run(const std::map<char, std::string> *options) {
+void ServerPushCommand::run(const OptionsResult& options) {
 	this->comm.authenticate(this->pgpid);
 
 	const std::string path("/secret1"),

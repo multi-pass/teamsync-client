@@ -78,7 +78,7 @@ int CLIController::dispatch(int argc, char *argv[]) {
 	CommandFactory::create(op, &cmd);
 
 	if (cmd) {
-		cmd->run(args.options);
+		cmd->run(args);
 
 		int res = cmd->getResult();
 		delete cmd;

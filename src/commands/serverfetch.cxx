@@ -22,7 +22,7 @@ ServerFetchCommand::ServerFetchCommand(const std::string& working_dir,
 
 }
 
-void ServerFetchCommand::run(const std::map<char, std::string> *options) {
+void ServerFetchCommand::run(const OptionsResult& options) {
 	this->comm.authenticate(this->pgpid);
 	this->comm.getFullTree(&tree_callback_helper, (void *)this);
 }

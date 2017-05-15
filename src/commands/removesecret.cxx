@@ -4,7 +4,7 @@ RemoveSecretCommand::RemoveSecretCommand(const std::string& working_dir) {
 
 }
 
-void RemoveSecretCommand::run(const std::map<char, std::string> *options) {
+void RemoveSecretCommand::run(const OptionsResult& options) {
 	std::cout << "Running remove secret command" << std::endl;
 }
 
