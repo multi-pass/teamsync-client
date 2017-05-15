@@ -75,14 +75,14 @@ void CommandFactory::create(const std::string command_string, Command **command)
 			goto postprocessing;
 		case SERVER_FETCH_COMMAND: {
 			const std::string& conf_server = appconfig.getString("server_url");
-			const std::string& conf_pgpid = appconfig.getString("pgpid");
-			*command = new ServerFetchCommand(cwd, conf_server, conf_pgpid);
+			const std::string& conf_fingerprint = appconfig.getString("fingerprint");
+			*command = new ServerFetchCommand(cwd, conf_server, conf_fingerprint);
 			goto postprocessing;
 		}
 		case SERVER_PUSH_COMMAND: {
 			const std::string& conf_server = appconfig.getString("server_url");
-			const std::string& conf_pgpid = appconfig.getString("pgpid");
-			*command = new ServerPushCommand(cwd, conf_server, conf_pgpid);
+			const std::string& conf_fingerprint = appconfig.getString("fingerprint");
+			*command = new ServerPushCommand(cwd, conf_server, conf_fingerprint);
 			goto postprocessing;
 		}
 		case SERVER_SYNC_COMMAND:

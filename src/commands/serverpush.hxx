@@ -15,7 +15,7 @@ class ServerPushCommand : public Command {
 	public:
 	ServerPushCommand(const std::string& working_dir,
 					  const std::string& server_url,
-					  const std::string& pgpid);
+					  const std::string& fingerprint);
 
 	void run(const OptionsResult& options);
 	int getResult();
@@ -24,7 +24,7 @@ class ServerPushCommand : public Command {
 	ServerCommunicator comm;
 	const std::string cwd;
 	const std::string server_url;
-	const std::string pgpid;
+	const std::string fingerprint;
 
 	int _result;
 };

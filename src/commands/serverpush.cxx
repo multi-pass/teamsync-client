@@ -2,8 +2,9 @@
 
 ServerPushCommand::ServerPushCommand(const std::string& working_dir,
 									 const std::string& server_url,
-									 const std::string& pgpid)
-	: cwd(working_dir), server_url(server_url), pgpid(pgpid), comm(server_url) {
+									 const std::string& fingerprint)
+	: cwd(working_dir), server_url(server_url), fingerprint(fingerprint),
+	comm(server_url) {
 
 }
 
@@ -45,7 +46,7 @@ void ServerPushCommand::run(const OptionsResult& options) {
 						std::istreambuf_iterator<char>());
 
 	// Communicate with server
-	this->comm.authenticate(this->pgpid);
+	this->comm.authenticate(this->fingerprint);
 	this->_result = !(200 == this->comm.setSecret(repo_path, payload));
 }
 

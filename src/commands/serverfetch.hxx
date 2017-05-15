@@ -13,16 +13,16 @@ class ServerFetchCommand : public Command {
 	public:
 	ServerFetchCommand(const std::string& working_dir,
 					   const std::string& server_url,
-					   const std::string& pgpid);
+					   const std::string& fingerprint);
 
 	void run(const OptionsResult& options);
 	int getResult();
 
 	protected:
 	ServerCommunicator comm;
-	std::string cwd;
-	std::string server_url;
-	std::string pgpid;
+	const std::string cwd;
+	const std::string server_url;
+	const std::string fingerprint;
 	int _result;
 };
 

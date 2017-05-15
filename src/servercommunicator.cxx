@@ -11,12 +11,12 @@ ServerCommunicator::ServerCommunicator(const std::string& server_url)
 
 }
 
-bool ServerCommunicator::authenticate(const std::string& pgpid) {
+bool ServerCommunicator::authenticate(const std::string& fingerprint) {
 	APIRequest req(POST, this->server_url, "/auth/requestlogin", this->session);
 
 	rapidjson::Document req_data;
 	req_data.SetObject();
-	req_data.AddMember("pgpid", pgpid, req_data.GetAllocator());
+	req_data.AddMember("fingerprint", fingerprint, req_data.GetAllocator());
 
 	rapidjson::StringBuffer json_buf;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(json_buf);

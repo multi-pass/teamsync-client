@@ -17,13 +17,14 @@ class _ServerFetchCommand_TreeTraversal : public ServerFetchCommand {
 
 ServerFetchCommand::ServerFetchCommand(const std::string& working_dir,
 									   const std::string& server_url,
-									   const std::string& pgpid)
-	: cwd(working_dir), server_url(server_url), pgpid(pgpid), comm(server_url) {
+									   const std::string& fingerprint)
+	: cwd(working_dir), server_url(server_url), fingerprint(fingerprint),
+	comm(server_url) {
 
 }
 
 void ServerFetchCommand::run(const OptionsResult& options) {
-	this->comm.authenticate(this->pgpid);
+	this->comm.authenticate(this->fingerprint);
 	this->comm.getFullTree(&tree_callback_helper, (void *)this);
 }
 
