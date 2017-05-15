@@ -72,7 +72,8 @@ int CLIController::dispatch(int argc, char *argv[]) {
 		return 1;
 	}
 
-	std::string op = *(args.non_option_arguments->begin());
+	std::string op = args.non_option_arguments->front();
+	((std::list<std::string> *)args.non_option_arguments)->pop_front();
 
 	Command *cmd = NULL;
 	CommandFactory::create(op, &cmd);
