@@ -1,14 +1,17 @@
 #include "appconfig.hxx"
 
-AppConfig::AppConfig(const std::string& config_file_path) {
-	FILE *fp = fopen(config_file_path.c_str(), "r");
-	char read_buf[65536];
-	rapidjson::FileReadStream is(fp, read_buf, sizeof(read_buf));
+AppConfig::AppConfig(const std::string& config_file_path)
+	: valid_config(false) {
+	if (FileHelper::exists(config_file_path)) {
+		FILE *fp = fopen(config_file_path.c_str(), "r");
 
-	this->config_doc.ParseStream(is);
-	fclose(fp);
+		char read_buf[65536];
+		rapidjson::FileReadStream is(fp, read_buf, sizeof(read_buf));
 
-	this->valid_config = this->config_doc.IsObject();
+		this->config_doc.ParseStream(is);
+		fclose(fp);
+		this->valid_config = this->config_doc.IsObject();
+	}
 }
 
 std::string AppConfig::getString(const std::string& value) {

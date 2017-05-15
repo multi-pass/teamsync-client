@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 
+#include "filehelper.hxx"
+
 class AppConfig {
 	public:
 	AppConfig(const std::string& config_file_path);
