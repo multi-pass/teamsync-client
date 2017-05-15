@@ -23,21 +23,21 @@
 
 class FileHelper {
 	public:
-	static std::string getWorkingDir();
+	static const std::string getWorkingDir();
 	static bool exists(const std::string& path);
 	static bool isDir(const std::string& path);
 	static bool isValidRepoPath(/* cwd */);
 	static bool isValidRepoPath(const std::string& path);
-	static std::string pathRelativeTo(const std::string& base_path,
+	static const std::string pathRelativeTo(const std::string& base_path,
 									  const std::string& path);
 	static std::vector<std::string> getRecursiveFileListing(const std::string& path);
-	static std::string hash_file(const std::string& filepath);
+	static const std::string hash_file(const std::string& filepath);
 
 	static bool verifyFile(const std::string& path, const std::string& hash_str);
 
 	private:
 #if HAVE_CRYPTO
-	static std::string libcrypto_hash_file(const std::string& digest_name,
+	static const std::string libcrypto_hash_file(const std::string& digest_name,
 										   const std::string& filepath);
 #endif
 };

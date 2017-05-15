@@ -3,7 +3,7 @@
 #define STRINGIZE_DETAIL_(v) #v
 #define STRINGIZE(v) STRINGIZE_DETAIL_(v)
 
-std::string FileHelper::getWorkingDir() {
+const std::string FileHelper::getWorkingDir() {
 	char *_cwd = getcwd(NULL, 0);
 	if (_cwd == NULL) {
 		perror("getcwd()");
@@ -46,7 +46,7 @@ bool FileHelper::isValidRepoPath(const std::string& path) {
 
 // FIXME: This implementation is probably the ugliest one to find.
 // It needed to be done fast, but wants to be rewritten!
-std::string FileHelper::pathRelativeTo(const std::string& base_path,
+const std::string FileHelper::pathRelativeTo(const std::string& base_path,
 									   const std::string& path) {
 	std::vector<std::string> base_components, path_components;
 	std::string filename;
@@ -182,7 +182,7 @@ std::vector<std::string> FileHelper::getRecursiveFileListing(const std::string& 
 	return list;
 }
 
-std::string FileHelper::hash_file(const std::string& filepath) {
+const std::string FileHelper::hash_file(const std::string& filepath) {
 #if HAVE_CRYPTO
 	// Use OpenSSL's libcrypto to calculate file hashes
 #if CRYPTO_WITH_SHA256
@@ -213,7 +213,7 @@ std::string FileHelper::hash_file(const std::string& filepath) {
 
 
 #if HAVE_CRYPTO
-std::string FileHelper::libcrypto_hash_file(const std::string& digest_name,
+const std::string FileHelper::libcrypto_hash_file(const std::string& digest_name,
 											const std::string& filepath) {
 	static bool dgst_loaded = false;
 	if (!dgst_loaded) {
