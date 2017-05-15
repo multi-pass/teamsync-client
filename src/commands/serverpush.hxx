@@ -4,7 +4,10 @@
 #include <fstream>
 #include <iostream>
 
+#include <limits.h>
+#include <stdlib.h>
 
+#include "../filehelper.hxx"
 #include "../servercommunicator.hxx"
 #include "../command.hxx"
 
@@ -19,9 +22,9 @@ class ServerPushCommand : public Command {
 
 	private:
 	ServerCommunicator comm;
-	std::string cwd;
-	std::string server_url;
-	std::string pgpid;
+	const std::string cwd;
+	const std::string server_url;
+	const std::string pgpid;
 
 	int _result;
 };

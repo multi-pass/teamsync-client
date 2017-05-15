@@ -8,17 +8,45 @@ ServerPushCommand::ServerPushCommand(const std::string& working_dir,
 }
 
 void ServerPushCommand::run(const OptionsResult& options) {
-	this->comm.authenticate(this->pgpid);
+	const std::list<std::string>& non_option_arguments = *(options.non_option_arguments);
+	if (non_option_arguments.empty()) {
+		fprintf(stderr, "Please provided a file to push.\n");
+		this->_result = 1;
+		return;
+	}
 
-	const std::string path("/secret1"),
-		local_path(this->cwd + path);
+	std::string local_path, repo_path;
+	{
+		const std::string path(non_option_arguments.front());
+		char *rpath;
+
+		if (!(rpath = realpath(path.c_str(), NULL))) {
+			// File does not exist
+			perror(path.c_str());
+			this->_result = 1;
+			return;
+		}
+
+		local_path = rpath;
+		free(rpath);
+
+		repo_path = FileHelper::pathRelativeTo(this->cwd, local_path);
+		repo_path.erase(repo_path.begin()); // remove leading '.'
+	}
 
 	std::ifstream in(local_path.c_str());
+	if (!in.is_open()) {
+		fprintf(stderr, "Could not open %s.\n", local_path.c_str());
+		this->_result = 1;
+		return;
+	}
+
 	std::string payload((std::istreambuf_iterator<char>(in)),
-						 std::istreambuf_iterator<char>());
+						std::istreambuf_iterator<char>());
 
-
-	this->_result = !(200 == this->comm.setSecret(path, payload));
+	// Communicate with server
+	this->comm.authenticate(this->pgpid);
+	this->_result = !(200 == this->comm.setSecret(repo_path, payload));
 }
 
 int ServerPushCommand::getResult() {
