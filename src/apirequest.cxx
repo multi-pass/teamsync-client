@@ -67,11 +67,11 @@ size_t APIRequest::readHelper(char *buffer, size_t size, size_t nitems,
 								  void *request_obj) {
 	APIRequest *req = (APIRequest *)request_obj;
 	std::string& request_body = req->request_body;
-	// std::string& request_body = *((std::string *)request_obj);
 
 	const size_t numc(std::min<size_t>(request_body.length(), (nitems * size)));
 
 	strncpy(buffer, request_body.c_str(), numc);
+	request_body.erase(0, numc); // remove the characters from string
 	return numc;
 }
 
