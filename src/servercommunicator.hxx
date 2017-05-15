@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 #include "apirequest.hxx"
+#include "base64.hxx"
 
 class ServerCommunicator {
 	public:

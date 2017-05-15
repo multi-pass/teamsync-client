@@ -123,9 +123,12 @@ int ServerCommunicator::setSecret(const std::string& path,
 								  const std::string& /* base64 */ payload) {
 	APIRequest req(PUT, this->server_url, ("/secrets" + path), this->session);
 
+	const std::string payload_b64(base64_encode((const unsigned char *)payload.c_str(),
+												payload.length()));
+
 	rapidjson::Document req_data;
 	req_data.SetObject();
-	req_data.AddMember("payload", payload, req_data.GetAllocator());
+	req_data.AddMember("payload", payload_b64, req_data.GetAllocator());
 
 	rapidjson::StringBuffer json_buf;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(json_buf);
