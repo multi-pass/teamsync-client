@@ -29,6 +29,7 @@ int CLIController::dispatch(int argc, char *argv[]) {
 	opts_parser.addLongMapping("chdir", 'C', required);
 	opts_parser.addLongMapping("help", 'h', none);
 	opts_parser.addLongMapping("usage", 'u', none);
+	opts_parser.addLongMapping("version", 'V', none);
 	OptionsResult args = opts_parser.parse();
 
 
