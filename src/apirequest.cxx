@@ -104,6 +104,10 @@ APIResponse APIRequest::send() {
 		response.content_type = content_type;
 	}
 
+#ifdef DEBUG
+	fprintf(stderr, "\nHTTP %d\n%s\n\n", response.response_code, response.http_response.c_str());
+#endif
+
 	return response;
 }
 
