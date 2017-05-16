@@ -35,6 +35,10 @@ void ServerPushCommand::run(const OptionsResult& options) {
 		repo_path.erase(repo_path.begin()); // remove leading '.'
 	}
 
+#ifdef DEBUG
+	printf("Pushing %s...\n", repo_path.c_str());
+#endif
+
 	std::ifstream in(local_path.c_str());
 	if (!in.is_open()) {
 		fprintf(stderr, "Could not open %s.\n", local_path.c_str());

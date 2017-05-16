@@ -59,9 +59,16 @@ void _ServerFetchCommand_TreeTraversal::treeCallback(const std::string& path,
 	if (!FileHelper::exists(local_path)
 		|| !FileHelper::verifyFile(local_path, hash_str)) {
 		// update secret
+#ifdef DEBUG
 		std::cout << "Getting secret " << path << "..." << std::endl;
+#endif
 		this->updateLocalSecret(path, local_path);
 	}
+#ifdef DEBUG
+	else {
+		std::cout << "Secret " << path << " up to date." << std::endl;
+	}
+#endif
 }
 
 int ServerFetchCommand::getResult() {
