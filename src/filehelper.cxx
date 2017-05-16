@@ -92,7 +92,8 @@ const std::string FileHelper::pathRelativeTo(const std::string& base_path,
 	if (base_components.empty()) { return path; }
 
 	// trim common parts from the beginning
-	while (base_components.front() == path_components.front()) {
+	while (!base_components.empty() && !path_components.empty()
+		   && base_components.front() == path_components.front()) {
 		base_components.erase(base_components.begin());
 		path_components.erase(path_components.begin());
 	}
