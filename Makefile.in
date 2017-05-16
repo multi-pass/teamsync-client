@@ -79,9 +79,8 @@ subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/config.h.in COPYING compile config/compile depcomp \
-	config/depcomp install-sh config/install-sh missing \
-	config/missing $(top_srcdir)/config/compile \
+	$(srcdir)/config.h.in COPYING config/compile config/depcomp \
+	config/install-sh config/missing $(top_srcdir)/config/compile \
 	$(top_srcdir)/config/install-sh $(top_srcdir)/config/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
