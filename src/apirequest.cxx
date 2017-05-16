@@ -46,6 +46,14 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 
 	std::string request_uri = (server_url + api_route);
 	curl_easy_setopt(curl, CURLOPT_URL, request_uri.c_str());
+
+	curl_slist *headers = this->headers;
+	headers = curl_slist_append(headers, "Accept: application/json");
+	headers = curl_slist_append(headers, "Depth: infinity");
+	headers = curl_slist_append(headers, "Connection: Keep-Alive");
+	headers = curl_slist_append(headers, "Content-Type: application/json");
+	headers = curl_slist_append(headers, "Expect:");
+	this->headers = headers;
 }
 
 void APIRequest::setRequestBody(const std::string& request_body) {
@@ -79,6 +87,9 @@ APIResponse APIRequest::send() {
 	APIResponse response;
 
 	CURL *curl = this->session.curl;
+
+	// Set headers
+	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, this->headers);
 
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &(APIResponse::writeCallback));
