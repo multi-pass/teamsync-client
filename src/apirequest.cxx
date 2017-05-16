@@ -15,6 +15,9 @@ APIRequest::APIRequest(HTTPMethod method, const std::string& server_url,
 
 	// Default options
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
+#ifdef DEBUG
+	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+#endif
 #if HAVE_CONFIG_H
 	curl_easy_setopt(curl, CURLOPT_USERAGENT,
 					 (PACKAGE_NAME "/" PACKAGE_VERSION));
