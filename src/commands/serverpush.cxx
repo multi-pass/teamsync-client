@@ -11,7 +11,7 @@ ServerPushCommand::ServerPushCommand(const std::string& working_dir,
 void ServerPushCommand::run(const OptionsResult& options) {
 	const std::list<std::string>& non_option_arguments = *(options.non_option_arguments);
 	if (non_option_arguments.empty()) {
-		fprintf(stderr, "Please provided a file to push.\n");
+		fprintf(stderr, "Please provide a file to push.\n");
 		this->_result = 1;
 		return;
 	}
