@@ -57,6 +57,7 @@ class APIRequest {
 	HTTPSession& session;
 	HTTPMethod method;
 	std::string request_body;
+	curl_slist *headers = NULL;
 };
 
 
